@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Course Landing</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --muted-bg: #f9fafb;
+      --muted-bg-2: #f3f4f6;
+      --ink: #0f172a;
+      --muted: #4b5563;
+      --line: rgba(15, 23, 42, 0.08);
+      --accent: #4f46e5;
+      --accent-light: #6366f1;
+      --accent-warm: #e879f9;
+      --radius: 12px;
+      --shadow-soft: 0 12px 34px rgba(15, 23, 42, 0.12);
+      --shadow-card: 0 6px 18px rgba(15, 23, 42, 0.1);
+      --max-width: 1200px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4 { margin: 0 0 12px; font-weight: 700; line-height: 1.2; color: var(--ink); }
+    p { margin: 0 0 16px; color: var(--muted); }
+
+    .container {
+      width: min(var(--max-width), 100% - 40px);
+      margin: 0 auto;
+    }
+    section { padding: 64px 0; position: relative; overflow: hidden; }
+    section + section { border-top: 1px solid rgba(15, 23, 42, 0.06); }
+    main > section:nth-of-type(3n) { background: var(--muted-bg-2); }
+    @media (min-width: 1100px) { section { padding: 80px 0; } }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); filter: blur(6px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+    .fade-section,
+    .fade-up {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .fade-section.visible,
+    .fade-up.visible {
+      animation: fadeUp 0.6s ease forwards;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .fade-section,
+      .fade-up { opacity: 1; transform: none; }
+    }
+
+    /* Base interactions */
+    button, a, .card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--bg);
+      transition: box-shadow 0.2s ease;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled { box-shadow: 0 4px 12px rgba(0,0,0,0.06); border-bottom-color: var(--line); }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+    }
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: 20px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--accent);
+    }
+    .nav-hamburger {
+      background: none;
+      border: none;
+      padding: 6px;
+      display: none;
+      cursor: pointer;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--ink);
+      margin: 4px 0;
+      border-radius: 2px;
+    }
+    @media (hover: hover) {
+      .btn:hover {
+        box-shadow: 0 8px 18px rgba(79,70,229,0.25);
+        transform: translateY(-2px);
+        background: #4238d8;
+      }
+      .btn.ghost:hover { background: rgba(99,102,241,0.1); }
+    }
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .cta-glow {
+      animation: pulseGlow 2.2s ease-in-out infinite;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 rgba(79,70,229,0.24); transform: translateY(0); }
+      50% { box-shadow: 0 0 22px rgba(79,70,229,0.32); transform: translateY(-1px) scale(1.01); }
+      100% { box-shadow: 0 0 0 rgba(79,70,229,0.18); transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cta-glow { animation: none; }
+    }
+    @media (min-width: 900px) { .nav-links { display: flex; } }
+
+    /* Hero */
+    .hero-section {
+      background: radial-gradient(circle at 20% 20%, rgba(231,121,249,0.2), transparent 35%), linear-gradient(135deg, #eef2ff, #ffffff);
+      border-top: 1px solid rgba(15, 23, 42, 0.05);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(99,102,241,0.18), transparent 60%);
+      filter: blur(50px);
+      z-index: 0;
+      left: 10%;
+      top: 10%;
+      pointer-events: none;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+      padding-top: 32px;
+    }
+    .hero-copy { display: grid; gap: 18px; max-width: 640px; }
+    .headline-wrap {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(79,70,229,0.16), rgba(99,102,241,0.08));
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .hero-title {
+      font-size: clamp(34px, 4.6vw, 52px);
+      background: linear-gradient(120deg, #0f172a, #4338ca);
+      -webkit-background-clip: text;
+      color: transparent;
+      position: relative;
+      display: inline-block;
+    }
+    .hero-title::before {
+      content: "";
+      position: absolute;
+      inset: -8px -12px -6px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.8), rgba(239,242,255,0.6));
+      border-radius: 14px;
+      z-index: -1;
+    }
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .meta-item {
+      padding: 12px 14px;
+      border-radius: var(--radius);
+      background: var(--muted-bg);
+      color: var(--muted);
+      font-weight: 600;
+      border: 1px solid var(--line);
+    }
+    .hero-media {
+      position: relative;
+      background: radial-gradient(circle at 30% 30%, rgba(99,102,241,0.18), transparent 60%), var(--muted-bg);
+      border-radius: var(--radius);
+      min-height: 280px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+    .hero-media > * { position: relative; z-index: 2; }
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: #fff;
+      box-shadow: var(--shadow-card);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+    }
+    .hero-media::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-45%, -50%);
+      border-left: 14px solid var(--accent);
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      z-index: 1;
+    }
+    @media (min-width: 900px) {
+      .hero { grid-template-columns: 1.05fr 0.95fr; gap: 56px; }
+    }
+
+    /* Section headers */
+    .section-head { margin-bottom: 32px; }
+    .section-title { margin: 0 0 8px; }
+    .section-head p { margin: 8px 0 0; max-width: 720px; }
+
+    /* Facts strip */
+    .facts {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #f9fafc, #eef2ff);
+      border: 1px solid var(--line);
+    }
+    .fact { display: grid; gap: 6px; text-align: left; padding: 12px; border-radius: var(--radius); border: 1px solid rgba(15,23,42,0.06); }
+    .fact strong { font-size: 22px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+    .fact .icon-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+      display: inline-block;
+    }
+
+    /* Generic grid helpers */
+    .grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    @media (min-width: 720px) { .grid.cols-2 { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 960px) { .grid.cols-3 { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1100px) { .grid.cols-4 { grid-template-columns: repeat(4, 1fr); } }
+
+    /* Cards */
+    .card {
+      padding: 26px;
+      border-radius: var(--radius);
+      background: #fff;
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      box-shadow: var(--shadow-card);
+    }
+    @media (hover: hover) {
+      .card:hover { box-shadow: 0 14px 38px rgba(15, 23, 42, 0.14); transform: translateY(-4px); border-color: rgba(79,70,229,0.25); }
+    }
+
+    /* Curriculum */
+    .curriculum { display: grid; gap: 14px; }
+    .module {
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: var(--shadow-card);
+      padding: 0;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .module[open] { border-color: rgba(79,70,229,0.3); box-shadow: 0 12px 30px rgba(79,70,229,0.12); }
+    .module summary {
+      padding: 16px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      list-style: none;
+    }
+    .module summary::-webkit-details-marker { display: none; }
+    .module summary .chevron {
+      margin-left: auto;
+      font-size: 14px;
+      color: var(--muted);
+      transition: transform 0.2s ease;
+      font-weight: 800;
+    }
+    .module[open] summary .chevron { transform: rotate(180deg); }
+    .module ul { padding: 0 18px 16px 18px; margin: 0; }
+
+    /* Instructor */
+    .instructor-wrap {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .instructor-photo {
+      border-radius: var(--radius);
+      min-height: 280px;
+      background: linear-gradient(160deg, #eef2ff, #f9fafc);
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .instructor-photo-img {
+      width: 100%;
+      border-radius: var(--radius);
+      object-fit: cover;
+      display: block;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+    }
+    .book-cover {
+      width: 90px;
+      height: 130px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.35);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.25);
+    }
+    .book-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Icon helpers */
+    .icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      margin-right: 8px;
+      stroke: currentColor;
+    }
+    .icon path { stroke: currentColor; }
+
+    /* Bonus styling */
+    .bonus-band {
+      position: relative;
+      background: #000;
+      overflow: hidden;
+      color: #f8fafc;
+    }
+    .bonus-band::before,
+    .bonus-band::after { display: none; }
+    .bonus-badge {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      background: radial-gradient(circle, rgba(250,204,21,0.6), rgba(250,204,21,0.3));
+      display: grid;
+      place-items: center;
+      color: #111827;
+      box-shadow: 0 16px 38px rgba(0,0,0,0.45);
+      animation: floatGift 4s ease-in-out infinite;
+    }
+    .bonus-card-accent {
+      border: 1px solid rgba(250,204,21,0.35);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.35);
+      padding: 28px;
+      background: #020617;
+    }
+    .bonus-band h2 { color: #facc15; }
+    .bonus-card-accent h3 { color: #facc15; }
+    .bonus-card-accent p { color: #e5e7eb; }
+    .bonus-subtext { color: #e5e7eb; opacity: 1; }
+    .bonus-glow {
+      position: absolute;
+      inset: 12px;
+      border-radius: 18px;
+      pointer-events: none;
+      box-shadow: 0 0 0 1px rgba(250,204,21,0.18);
+      animation: pulseGlow 3.8s ease-in-out infinite;
+    }
+    @keyframes floatGift {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 1px rgba(255,255,255,0.08); }
+      50% { box-shadow: 0 0 22px rgba(255,255,255,0.14); }
+    }
+    @media (min-width: 960px) {
+      .instructor-wrap { grid-template-columns: 0.95fr 1.05fr; gap: 48px; }
+    }
+
+    /* Testimonials */
+    .testimonials {
+      background: radial-gradient(circle at 20% 20%, rgba(99,102,241,0.08), transparent 55%), var(--bg);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .testimonial-track {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 8px 4px 12px;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 8px;
+    }
+    .testimonial-track::-webkit-scrollbar { height: 8px; }
+    .testimonial-track::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 999px; }
+    .testimonial-card {
+      flex: 0 0 300px;
+      scroll-snap-align: start;
+    }
+    @media (min-width: 1024px) {
+      .testimonial-card { flex: 0 0 340px; }
+    }
+
+    /* Dark sections */
+    .dark-section {
+      background: linear-gradient(135deg, #0f172a, #111827);
+      color: #e5e7eb;
+    }
+    .dark-section h2,
+    .dark-section h3,
+    .dark-section p { color: #e5e7eb; }
+    .dark-section .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+    }
+    .dark-section .card:hover { border-color: rgba(99,102,241,0.5); }
+    .dark-section .btn.ghost { color: #e5e7eb; border-color: rgba(255,255,255,0.4); }
+
+    /* Media strip */
+    .media-strip {
+      background: linear-gradient(90deg, #f5f7fb, #ffffff);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      border-radius: var(--radius);
+      padding: 18px;
+      overflow: hidden;
+      position: relative;
+    }
+    .media-strip h3 {
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .media-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      min-width: 160%;
+      animation: marquee 36s linear infinite;
+    }
+    .media-track a {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      background: #fff;
+      color: #0f172a;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+      white-space: nowrap;
+      font-weight: 600;
+    }
+    .media-strip:hover .media-track { animation-play-state: paused; }
+    .media-wrapper a:nth-child(1) { background: #eef2ff; }
+    .media-wrapper a:nth-child(2) { background: #e0e7ff; }
+    .media-wrapper a:nth-child(3) { background: #dbeafe; }
+    .media-wrapper a:nth-child(4) { background: #e0f2fe; }
+    .media-wrapper a:nth-child(5) { background: #ecfeff; }
+    .media-wrapper a:nth-child(6) { background: #f3f4f6; }
+    .media-wrapper a:nth-child(7) { background: #e8eaf6; }
+    .media-wrapper a:nth-child(8) { background: #e7e3ff; }
+    .media-wrapper a:nth-child(9) { background: #e6f4ea; }
+    .media-wrapper a:nth-child(10) { background: #f6f1ff; }
+    .media-wrapper a:nth-child(11) { background: #f1f5f9; }
+    .media-wrapper {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .media-track { animation: none; }
+      .bonus-badge { animation: none; }
+      .bonus-glow { animation: none; }
+      .btn.cta-glow { animation: none; }
+    }
+
+    /* CTA animation enhancement */
+    .btn.cta-glow {
+      animation: ctaPulse 2s ease-in-out infinite;
+    }
+    @keyframes ctaPulse {
+      0% { box-shadow: 0 0 0 rgba(79,70,229,0.2); transform: translateY(0) scale(1); }
+      50% { box-shadow: 0 12px 24px rgba(79,70,229,0.35); transform: translateY(-1px) scale(1.02); }
+      100% { box-shadow: 0 0 0 rgba(79,70,229,0.2); transform: translateY(0) scale(1); }
+    }
+
+    /* Hero mobile ordering */
+    @media (max-width: 768px) {
+      .hero-section { padding-top: 32px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-media { margin-top: 12px; }
+      .hero-ctas {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+      }
+      .hero-ctas .primary-cta,
+      .hero-ctas .secondary-cta {
+        width: 100%;
+        text-align: center;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        white-space: nowrap;
+        box-sizing: border-box;
+      }
+      .nav-cta-group {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .nav-cta-group .btn,
+      .nav-cta-group a {
+        flex: 1;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      .nav-logo { display: none; }
+      .nav-links { display: none; }
+      .nav-hamburger {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 8px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        position: relative;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 2.5rem;
+      }
+      .hero-copy {
+        width: 55%;
+        padding-right: 1rem;
+      }
+      .hero-video {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44%;
+        max-width: 540px;
+        margin-top: 0;
+      }
+    }
+
+    /* Pricing */
+    .pricing-section {
+      background: linear-gradient(135deg, #eef2ff, #ffffff);
+      border-top: 1px solid rgba(15, 23, 42, 0.05);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    }
+    .pricing {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    @media (min-width: 900px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+    .price-card { position: relative; overflow: hidden; }
+    .price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+    .price small { color: var(--muted); font-size: 14px; }
+    .list { padding-left: 18px; color: var(--muted); display: grid; gap: 8px; margin: 0 0 12px; }
+    .list li { list-style: none; position: relative; padding-left: 18px; }
+    .list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+    .highlight {
+      background: linear-gradient(180deg, rgba(99,102,241,0.16), #ffffff);
+      border: 1px solid rgba(79,70,229,0.4);
+      box-shadow: 0 12px 32px rgba(79,70,229,0.18);
+      transform: translateY(-4px);
+      position: relative;
+      overflow: hidden;
+    }
+    .highlight::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(circle, rgba(99,102,241,0.22), transparent 65%);
+      filter: blur(30px);
+      z-index: 0;
+    }
+    .highlight > * { position: relative; z-index: 1; }
+    }
+    .badge-popular {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(79,70,229,0.12);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* Social proof emphasis */
+    .testimonial-hero {
+      border: 1px solid rgba(79,70,229,0.35);
+      box-shadow: 0 14px 38px rgba(79,70,229,0.14);
+      transform: translateY(-2px);
+    }
+
+    /* Mobile sticky CTA */
+    .mobile-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.94);
+      border-top: 1px solid var(--line);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+    .mobile-cta .btn { width: 100%; text-align: center; }
+    @media (min-width: 768px) {
+      .mobile-cta { display: none; }
+    }
+
+    /* Value section */
+    .value {
+      background: linear-gradient(135deg, #f9fafc, #eef2ff);
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 30px rgba(79,70,229,0.12);
+    }
+
+    /* FAQ */
+    .faq { display: grid; gap: 12px; }
+    details {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      background: #fff;
+      transition: box-shadow 0.18s ease;
+    }
+    details[open] { box-shadow: var(--shadow-soft); }
+    summary { cursor: pointer; font-weight: 700; list-style: none; display:flex; align-items:center; }
+    summary::-webkit-details-marker { display: none; }
+    summary .chevron {
+      margin-left: auto;
+      font-weight: 800;
+      transition: transform 0.2s ease;
+    }
+    details[open] summary .chevron { transform: rotate(180deg); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 48px 0 64px;
+      background: var(--muted-bg);
+    }
+    .footer-grid { display: grid; gap: 20px; }
+    @media (min-width: 800px) { .footer-grid { grid-template-columns: repeat(3, 1fr); } }
+    .footer-links a { display: block; margin-bottom: 8px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <!-- Sticky header -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="nav-logo" style="font-weight: 800;">Think to Ink</div>
+        <div class="nav-links">
+          <a href="#pricing">Overview</a>
+          <a href="#curriculum">Curriculum</a>
+          <a href="#bonuses">Bonuses</a>
+          <a href="#faq">FAQs</a>
+        </div>
+        <div class="nav-actions nav-cta-group">
+          <a class="btn ghost" href="#pricing">View Curriculum</a>
+          <a class="btn" href="#pricing">Enroll Now</a>
+        </div>
+        <button class="nav-hamburger" aria-label="Open menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="fade-section fade-up hero-section">
+      <div class="hero-glow"></div>
+      <div class="container hero">
+        <div class="hero-copy hero-text-col">
+          <span class="headline-wrap hero-tag">Online Writing Certification</span>
+          <h1 class="hero-title heading-xl">“Dil mein kahani… par page par sirf blank space?”</h1>
+          <div class="hero-media hero-video">
+            Video preview placeholder
+            <p style="margin:8px 0 0; color:var(--muted); font-weight:600;">Watch the course trailer</p>
+          </div>
+          <p class="body-lg hero-sub">Learn a simple, proven storytelling system from bestselling author Akshat Gupta — and finally turn your ideas into stories, books, scripts and scenes that actually get finished.</p>
+          <p class="body-md hero-instructor" style="margin:0; font-weight:700; color:var(--muted);">By Akshat Gupta, National Bestselling Author & Storyteller</p>
+          <div class="hero-price" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <div class="price" style="font-size:28px; font-weight:800; display:flex; align-items:center; gap:10px; color:var(--ink);">
+              <span style="text-decoration: line-through; color:var(--muted); font-size:18px;">₹2,999</span>
+              <span style="font-size:30px;">₹2,499</span>
+            </div>
+            <span style="font-weight:600; color:var(--muted);">Limited Time Offer</span>
+            <div id="countdown" style="font-weight:700; color:#be185d; background: rgba(190,24,93,0.08); padding:8px 12px; border-radius:999px; border:1px solid rgba(190,24,93,0.2);">Offer ends in --:--:--</div>
+          </div>
+          <div class="nav-actions hero-ctas" style="gap:12px;">
+            <a class="btn cta-glow primary-cta" href="#pricing">Enroll Now for ₹2,499</a>
+            <a class="btn ghost secondary-cta" href="#curriculum">View Curriculum</a>
+          </div>
+          <div class="hero-social" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; color:var(--muted);">
+            <span class="hero-social-icons" style="display:inline-flex; align-items:center; gap:0.4rem;">
+              <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17" cy="7" r="1"></circle>
+              </svg>
+              <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.92 4 12 4 12 4s-6.92 0-8.59.45A2.78 2.78 0 0 0 1.46 6.4 29.4 29.4 0 0 0 1 12a29.4 29.4 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.08 20 12 20 12 20s6.92 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29.4 29.4 0 0 0 23 12a29.4 29.4 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12z"></path>
+              </svg>
+            </span>
+            <span style="font-weight:700; color:var(--ink);" class="hero-social-text">2 Million+ readers, viewers and followers across platforms</span>
+          </div>
+          <div class="hero-meta hero-features">
+            <div class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.418 3.582-8 8-8a8 8 0 1 1-5.657 13.657" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Lifetime Access</div>
+            <div class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M7 4h10v16H7z" stroke-width="2"/><path d="M10 9l4 3-4 3V9z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Watch at Your Own Pace</div>
+            <div class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 5h14v10H3z" stroke-width="2"/><path d="M7 19h14V9h-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Works on Mobile & Laptop</div>
+            <div class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M6 4h12v16H6z" stroke-width="2"/><path d="M9 9h6M9 12h6M9 15h4" stroke-width="2" stroke-linecap="round"/><path d="M12 4l2-2 2 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>6-Week Certification</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Author Feature Band -->
+    <section class="fade-section fade-up" style="background: linear-gradient(135deg, #0f172a, #1b1f32); color: #e5e7eb; position: relative; overflow: hidden;">
+      <div style="position:absolute; inset:0; pointer-events:none; background: radial-gradient(circle at 20% 30%, rgba(99,102,241,0.18), transparent 45%), radial-gradient(circle at 80% 60%, rgba(190,24,93,0.16), transparent 50%); opacity:0.8;"></div>
+      <div class="container" style="position:relative; z-index:1;">
+        <div class="section-head">
+          <h2 style="color:#fff; letter-spacing:0.01em;">The mind behind India’s most captivating modern epics</h2>
+        </div>
+        <div class="grid cols-2" style="gap:18px;">
+          <article class="card" style="display:grid; grid-template-columns: auto 1fr; gap:14px; align-items:center; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#e5e7eb;">
+            <div class="book-cover" style="transform: rotate(-2deg);">
+              <img src="hh.png" alt="The Hidden Hindu cover">
+            </div>
+            <div>
+              <div class="badge-popular" style="background: rgba(99,102,241,0.16); border:none; color:#fff;">National Bestseller • Fan-Favourite Universe</div>
+              <h3 class="heading-md" style="margin-top:8px; color:#fff;">The Hidden Hindu (Trilogy)</h3>
+              <p class="body-md" style="margin:6px 0; color:#d1d5db;">A gripping, cinematic universe loved by readers across India.</p>
+            </div>
+          </article>
+          <article class="card" style="display:grid; grid-template-columns: auto 1fr; gap:14px; align-items:center; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#e5e7eb;">
+            <div class="book-cover" style="transform: rotate(2deg);">
+              <img src="naga.png" alt="The Naga Warriors cover">
+            </div>
+            <div>
+              <div class="badge-popular" style="background: rgba(190,24,93,0.16); border:none; color:#fff;">Acclaimed Storyworld • Expanding Series</div>
+              <h3 class="heading-md" style="margin-top:8px; color:#fff;">The Naga Warriors</h3>
+              <p class="body-md" style="margin:6px 0; color:#d1d5db;">A powerful saga with action, emotion and world-building mastery.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key facts -->
+    <section class="fade-section fade-up">
+      <div class="container">
+        <div class="facts">
+          <div class="fact">
+            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M6 4h12v14H6z" stroke-width="2"/><path d="M9 7h6M9 11h6M9 15h4" stroke-width="2" stroke-linecap="round"/></svg>700,000+</strong>
+            <span>Books Sold by Akshat</span>
+          </div>
+          <div class="fact">
+            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M7 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke-width="2"/><path d="M2 20c0-3.314 2.686-6 6-6h1" stroke-width="2" stroke-linecap="round"/><path d="M14 20c0-2.761 2.239-5 5-5h1" stroke-width="2" stroke-linecap="round"/></svg>10,000+</strong>
+            <span>Learners Already Enrolled</span>
+          </div>
+          <div class="fact">
+            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke-width="2"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" stroke-width="2" stroke-linecap="round"/></svg>2,000,000+</strong>
+            <span>Audience Across Platforms</span>
+          </div>
+          <div class="fact">
+            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M7 3h10v18H7z" stroke-width="2"/><path d="M7 8h10" stroke-width="2" stroke-linecap="round"/><path d="M7 13h6" stroke-width="2" stroke-linecap="round"/></svg>10+ Years</strong>
+            <span>Writing, Screenplay & Storytelling Experience</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Problems -->
+    <section class="fade-section fade-up dark-section" style="background: linear-gradient(135deg, #0f172a, #0b1224);">
+      <div class="container">
+        <div class="section-head">
+          <h2>⚡ Where most writers and creators get stuck</h2>
+          <p>You’re not alone. Every aspiring writer hits these same roadblocks.</p>
+        </div>
+        <div class="grid cols-2">
+          <article class="card">
+            <h3>“Idea toh hoti hai, but clarity nahi”</h3>
+            <p>You have scenes, characters, imagination… but no structure to start.</p>
+          </article>
+          <article class="card">
+            <h3>“Main likhne baithta hoon, but kuch jamta hi nahi”</h3>
+            <p>Blank page anxiety. Overthinking. Zero flow.</p>
+          </article>
+          <article class="card">
+            <h3>“Characters feel boring or predictable”</h3>
+            <p>You know what they should do, but not how to make them feel real.</p>
+          </article>
+          <article class="card">
+            <h3>“I don’t know if my story is good enough”</h3>
+            <p>Self-doubt kills momentum. You restart again and again.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="fade-section fade-up">
+      <div class="container">
+        <div class="section-head">
+          <h2>What you’ll walk away with</h2>
+          <p>A complete storytelling toolkit that opens doors to multiple creative careers.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ability to complete your story</h3>
+            <p>Whether it’s a book, short film, microdrama or branded script — you’ll know exactly how to take it from idea to finished draft.</p>
+          </div>
+          <div class="card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Confidence to write for any format</h3>
+            <p>Books, films, reels, ads, dialogues, monologues — storytelling becomes your skill, not guesswork.</p>
+          </div>
+          <div class="card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Publish-ready story discipline</h3>
+            <p>You’ll learn how to structure, edit and refine your writing like a professional.</p>
+          </div>
+          <div class="card">
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple career unlocks</h3>
+            <p>After the course, you can explore writing roles for OTT, D2C brands, creators, fiction, microcontent, podcasts, short films, and more.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curriculum -->
+    <section class="fade-section fade-up" id="curriculum" style="background: radial-gradient(circle at 15% 20%, rgba(99,102,241,0.08), transparent 45%), linear-gradient(135deg, #f8f9ff, #ffffff);">
+      <div class="container">
+        <div class="section-head">
+          <h2>Curriculum overview</h2>
+          <p>A focused path from idea to manuscript and screenplay, with assignments to ship drafts.</p>
+        </div>
+        <div class="curriculum" id="modules">
+          <!-- Module 1 -->
+          <details class="module open" aria-expanded="true" open>
+            <summary class="heading-md" aria-controls="module-1">Module 1 — Unlocking the Fiction Writer Within <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">Find your voice, genre & core story idea.</p>
+            <ul class="list" id="module-1" style="margin-top:10px;">
+              <li>Understanding genres & subgenres</li>
+              <li>What you should and shouldn’t write</li>
+              <li>Identifying your story’s heartbeat</li>
+              <li>Assignment: Choose your genre + outline why it fits you.</li>
+            </ul>
+          </details>
+          <!-- Module 2 -->
+          <details class="module" aria-expanded="false">
+            <summary class="heading-md" aria-controls="module-2">Module 2 — Shaping Your Fictional World <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">Build the foundation that makes stories believable.</p>
+            <ul class="list" id="module-2" style="margin-top:10px;">
+              <li>SWOT of writer + story</li>
+              <li>USP that sells to publishers/producers</li>
+              <li>Period, duration, location & conflict</li>
+              <li>Assignment: Write your story’s 4-dimensional foundation.</li>
+            </ul>
+          </details>
+          <!-- Module 3 -->
+          <details class="module" aria-expanded="false">
+            <summary class="heading-md" aria-controls="module-3">Module 3 — Mastering Structure & Flow <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">The architecture behind page-turning fiction.</p>
+            <ul class="list" id="module-3" style="margin-top:10px;">
+              <li>Three-act story model</li>
+              <li>Scene list creation</li>
+              <li>Crafting hooks & climaxes</li>
+              <li>Assignment: Create a 1-page beat sheet + scene map.</li>
+            </ul>
+          </details>
+          <!-- Module 4 -->
+          <details class="module" aria-expanded="false">
+            <summary class="heading-md" aria-controls="module-4">Module 4 — Bringing Characters to Life <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">Make readers FEEL your characters.</p>
+            <ul class="list" id="module-4" style="margin-top:10px;">
+              <li>Protagonist & antagonist depth</li>
+              <li>Emotional arcs & motivations</li>
+              <li>Dialogue & behavioural realism</li>
+              <li>Assignment: Build a 2-page character sheet.</li>
+            </ul>
+          </details>
+          <!-- Module 5 -->
+          <details class="module" aria-expanded="false">
+            <summary class="heading-md" aria-controls="module-5">Module 5 — World-Building & Imagination <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">Construct immersive worlds readers won’t want to leave.</p>
+            <ul class="list" id="module-5" style="margin-top:10px;">
+              <li>Sensory description mastery</li>
+              <li>Rules of your universe</li>
+              <li>Blending fiction with real mythology/history</li>
+              <li>Assignment: Write a 500-word world introduction scene.</li>
+            </ul>
+          </details>
+          <!-- Module 6 -->
+          <details class="module" aria-expanded="false">
+            <summary class="heading-md" aria-controls="module-6">Module 6 — Writing, Editing & Finishing Strong <span class="chevron">⌄</span></summary>
+            <p class="body-md" style="margin:4px 18px 10px;">This is where ideas become books/films.</p>
+            <ul class="list" id="module-6" style="margin-top:10px;">
+              <li>Drafting without blocks</li>
+              <li>Getting distance & reading like an editor</li>
+              <li>Rewriting, polishing & finalizing</li>
+              <li>Assignment: Submit your first complete chapter/scene.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="nav-actions" style="margin-top:18px;">
+          <a class="btn cta-glow" href="#pricing">Enroll now for ₹2,499</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="fade-section fade-up" id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>How Think to Ink transforms your writing</h2>
+          <p>This isn’t a “creative inspiration” course. It’s a guided, structured system.</p>
+        </div>
+        <div class="grid cols-4">
+          <article class="card">
+            <h3>Akshat’s complete storytelling system</h3>
+            <p>Simple, practical steps he uses himself — not abstract gyaan.</p>
+          </article>
+          <article class="card">
+            <h3>Book + Film writing in one place</h3>
+            <p>Understand prose, screenplay, pacing, scenes and emotional craft.</p>
+          </article>
+          <article class="card">
+            <h3>Worksheets, templates and story frameworks</h3>
+            <p>So you never feel lost or directionless again.</p>
+          </article>
+          <article class="card">
+            <h3>Built for Indian writers & creators</h3>
+            <p>Relevant examples, relatable language, and real workable habits.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructor -->
+    <section class="fade-section fade-up dark-section" style="background: linear-gradient(135deg, #0f172a, #0b1020);">
+      <div class="container">
+        <div class="instructor-wrap">
+          <div class="instructor-photo" style="padding:8px; background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));">
+            <img src="ag1.jpg" alt="Akshat Gupta – author of The Hidden Hindu and The Naga Warriors" class="instructor-photo-img">
+          </div>
+          <div class="card">
+            <h2>Meet your instructor</h2>
+            <p>Akshat Gupta is the bestselling author behind The Hidden Hindu and The Naga Warriors — two of India’s most consumed mythological universes. His work blends mythology, sci-fi, history and thriller pacing, earning millions of readers and a dedicated fanbase.</p>
+            <p>With OTT adaptations underway and multiple books in motion, Akshat brings a decade of hands-on storytelling experience straight to your writing desk.</p>
+            <div style="display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+              <div>
+                <strong>2M+ audience across platforms</strong>
+                <p style="margin:4px 0 0;">Readers, viewers, and followers.</p>
+              </div>
+              <div>
+                <strong>700,000+ books sold</strong>
+                <p style="margin:4px 0 0;">Across his mythological universes.</p>
+              </div>
+              <div>
+                <strong>Bestseller in multiple formats</strong>
+                <p style="margin:4px 0 0;">Print, digital, and audio success.</p>
+              </div>
+              <div>
+                <strong>10+ years of writing & screen development</strong>
+                <p style="margin:4px 0 0;">From page to OTT adaptations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="fade-section fade-up">
+      <div class="container testimonials">
+        <div class="section-head">
+          <h2>Proof from learners</h2>
+          <p>Trusted by 12,000+ aspiring writers leveling up their craft.</p>
+        </div>
+        <div class="testimonial-track">
+          <article class="card testimonial-hero testimonial-card">
+            <p>“Akshat Sir’s frameworks finally made writing workable. I completed my first short film script after struggling for 2 years.”</p>
+            <strong>Riya, Mumbai</strong>
+          </article>
+          <article class="card testimonial-card">
+            <p>“Mere dimaag mein bahut ideas the but koi structure nahi. This course fixed that. Ab story flow samajh aata hai.”</p>
+            <strong>Shubham S., Delhi</strong>
+          </article>
+          <article class="card testimonial-card">
+            <p>“Pehli baar laga ki main bhi writer ban sakta hoon. Simple language, clear steps, and very motivating.”</p>
+            <strong>Sandeep, Jaipur</strong>
+          </article>
+          <article class="card testimonial-card">
+            <p>“The assignments pushed me out of my comfort zone. Best investment for any beginner.”</p>
+            <strong>Aditi N.</strong>
+          </article>
+          <article class="card testimonial-card">
+            <p>“Microdrama likhna tha but kahani jamti nahi thi. Now I can write 1-min scenes with clarity.”</p>
+            <strong>Kamna, Pune</strong>
+          </article>
+          <article class="card testimonial-card">
+            <p>“Worth every rupee. Akshat explains writing in a way my brain finally understands.”</p>
+            <strong>Harsh, Bengaluru</strong>
+          </article>
+        </div>
+        <div class="nav-actions" style="margin-top:20px;">
+          <a class="btn cta-glow" href="#pricing">Join them — Enroll now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value -->
+    <section class="fade-section">
+      <div class="container">
+        <div class="card value" style="display:grid; gap:12px; grid-template-columns: auto 1fr; align-items:center;">
+          <div style="width:52px; height:52px; border-radius:50%; background:rgba(79,70,229,0.12); display:grid; place-items:center; color:var(--accent); font-weight:800;">✓</div>
+          <div>
+            <h2>A practical, no-nonsense investment in your writing journey</h2>
+            <ul class="list">
+              <li><strong>Pure Actionable Learning</strong> — Clear steps, real examples, simple methods.</li>
+              <li><strong>Results You Can Feel</strong> — Better clarity, better flow, better stories.</li>
+              <li><strong>Trusted by Thousands</strong> — 10,000+ learners already enrolled.</li>
+            </ul>
+            <div class="nav-actions" style="margin-top:8px;">
+              <a class="btn cta-glow" href="#pricing">Secure your spot</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bonus -->
+    <section class="fade-section fade-up bonus-band" style="background: #020617;">
+      <div class="container" style="position:relative; z-index:1;">
+        <div class="section-head" id="bonuses" style="display:flex; align-items:center; gap:12px;">
+          <div class="bonus-badge">🎁</div>
+          <div>
+            <h2>Bonuses you unlock today</h2>
+            <p class="bonus-subtext">Limited-time bonuses for early learners.</p>
+          </div>
+        </div>
+        <div class="grid cols-2">
+          <article class="card bonus-card-accent">
+            <h3>Writing Assignments</h3>
+            <p>Practice-based tasks to strengthen your craft.</p>
+          </article>
+          <article class="card bonus-card-accent">
+            <h3>Certificate of Completion</h3>
+            <p>A verified certificate to showcase your learning.</p>
+          </article>
+          <article class="card bonus-card-accent">
+            <h3>Lifetime Access</h3>
+            <p>Revisit lessons anytime, forever.</p>
+          </article>
+          <article class="card bonus-card-accent">
+            <h3>Priority WhatsApp Support</h3>
+            <p>Get faster responses, nudges and guidance directly via WhatsApp.</p>
+          </article>
+        </div>
+        <div class="nav-actions" style="margin-top:20px;">
+          <a class="btn cta-glow" href="#pricing" style="background: linear-gradient(135deg, #facc15, #f97316); color:#111827; border:none; box-shadow: 0 12px 28px rgba(250,204,21,0.35);">Claim bonuses with enrollment</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media mentions -->
+    <section class="fade-section fade-up" style="background: var(--muted-bg-2);">
+      <div class="container">
+        <div class="media-strip" style="padding: 22px;">
+          <h3 class="section-title heading-md" style="margin:0 0 12px; color:var(--ink); text-align:center;">Featured In</h3>
+          <div style="overflow:hidden; padding: 0 16px;">
+            <div class="media-track">
+              <div class="media-wrapper">
+                <a href="https://www.ptinews.com/story/national/author-akshat-gupta-s-the-naga-warriors-to-hit-stands-on-may-27/1517646" target="_blank" rel="noopener noreferrer">PTI</a>
+                <a href="https://www.thehindu.com/books/books-authors/akshat-gupta-the-hidden-hindu/article65366075.ece" target="_blank" rel="noopener noreferrer">The Hindu</a>
+                <a href="https://timesofindia.indiatimes.com/life-style/books/features/people-want-to-know-everything-about-superheroes-other-than-our-own-author-akshat-gupta-on-what-inspired-him-to-write-the-hidden-hindu-trilogy/articleshow/107727652.cms" target="_blank" rel="noopener noreferrer">Times of India</a>
+                <a href="https://hindi.news18.com/news/literature/sahitya-sansar-new-delhi-world-book-fair-2024-the-hidden-hindu-books-author-akshat-gupta-meet-his-fans-8060408.html" target="_blank" rel="noopener noreferrer">News18</a>
+                <a href="https://www.abplive.com/videos/religion-and-spirituality/what-does-the-word-sir-mean-akshat-gupta-author-dharma-live-2624549" target="_blank" rel="noopener noreferrer">ABP Live</a>
+                <a href="https://www.entrepreneur.com/en-in/lifestyle/the-man-behind-the-the-hidden-hindu-triology/458185" target="_blank" rel="noopener noreferrer">Entrepreneur India</a>
+                <a href="https://www.newindianexpress.com/entertainment/hindi/2020/Nov/26/author-akshat-gupta-recalls-first-interaction-with-sakshi-dhoni-for-web-series-2228350.html" target="_blank" rel="noopener noreferrer">The Indian Express</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">… and more</a>
+              </div>
+              <div class="media-wrapper">
+                <a href="https://www.ptinews.com/story/national/author-akshat-gupta-s-the-naga-warriors-to-hit-stands-on-may-27/1517646" target="_blank" rel="noopener noreferrer">PTI</a>
+                <a href="https://www.thehindu.com/books/books-authors/akshat-gupta-the-hidden-hindu/article65366075.ece" target="_blank" rel="noopener noreferrer">The Hindu</a>
+                <a href="https://timesofindia.indiatimes.com/life-style/books/features/people-want-to-know-everything-about-superheroes-other-than-our-own-author-akshat-gupta-on-what-inspired-him-to-write-the-hidden-hindu-trilogy/articleshow/107727652.cms" target="_blank" rel="noopener noreferrer">Times of India</a>
+                <a href="https://hindi.news18.com/news/literature/sahitya-sansar-new-delhi-world-book-fair-2024-the-hidden-hindu-books-author-akshat-gupta-meet-his-fans-8060408.html" target="_blank" rel="noopener noreferrer">News18</a>
+                <a href="https://www.abplive.com/videos/religion-and-spirituality/what-does-the-word-sir-mean-akshat-gupta-author-dharma-live-2624549" target="_blank" rel="noopener noreferrer">ABP Live</a>
+                <a href="https://www.entrepreneur.com/en-in/lifestyle/the-man-behind-the-the-hidden-hindu-triology/458185" target="_blank" rel="noopener noreferrer">Entrepreneur India</a>
+                <a href="https://www.newindianexpress.com/entertainment/hindi/2020/Nov/26/author-akshat-gupta-recalls-first-interaction-with-sakshi-dhoni-for-web-series-2228350.html" target="_blank" rel="noopener noreferrer">The Indian Express</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">… and more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features (was Pricing) -->
+    <section class="fade-section fade-up pricing-section" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <h2>What’s included in Think to Ink</h2>
+          <p>Everything you need to go from idea → finished story.</p>
+        </div>
+        <div style="display:flex; justify-content:center;">
+          <article class="card price-card highlight" style="max-width: 760px; width: 100%; padding: 36px;">
+            <div class="badge-popular">Core Features</div>
+            <h3 class="heading-md" style="margin: 8px 0 16px;">Everything you need to write and pitch</h3>
+            <ul class="list">
+              <li>6 Comprehensive Video Modules (6 Hours)</li>
+              <li>6 Practical Writing Assignments</li>
+              <li>Accessible on mobile and laptop</li>
+              <li>Character Development Worksheets</li>
+              <li>Plot Structure Frameworks</li>
+              <li>Publishing Strategy Roadmap</li>
+              <li>Industry Insider Tips & Secrets</li>
+              <li>Lifetime Access (No expiry)</li>
+              <li>Learn at Your Own Pace</li>
+              <li>Certification on Completion</li>
+            </ul>
+            <div class="nav-actions" style="margin-top:12px;">
+              <a class="btn cta-glow" href="#">Enroll now for ₹2,499</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="fade-section fade-up" id="faq">
+      <div class="container">
+        <div class="section-head">
+          <h2>FAQ</h2>
+        </div>
+        <div class="faq">
+          <details>
+            <summary>Who is this course for?<span class="chevron">+</span></summary>
+            <p>Anyone interested in writing stories — books, films, reels, microdramas, ad scripts or branded content.</p>
+          </details>
+          <details>
+            <summary>What language is the course in?<span class="chevron">+</span></summary>
+            <p>English with easy Hinglish. Very simple to follow.</p>
+          </details>
+          <details>
+            <summary>Do I get lifetime access?<span class="chevron">+</span></summary>
+            <p>Yes, forever.</p>
+          </details>
+          <details>
+            <summary>How long will it take to finish?<span class="chevron">+</span></summary>
+            <p>Most learners complete it in 4–6 weeks at an easy pace.</p>
+          </details>
+          <details>
+            <summary>Will I get a certificate?<span class="chevron">+</span></summary>
+            <p>Yes, you will receive a completion certificate.</p>
+          </details>
+          <details>
+            <summary>Do I need prior writing experience?<span class="chevron">+</span></summary>
+            <p>No, the course starts from basics and builds you up.</p>
+          </details>
+          <details>
+            <summary>Is it suitable for film writing?<span class="chevron">+</span></summary>
+            <p>Yes, it covers scenes, flow, emotions, pacing and story structure.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>Think to Ink</strong>
+        <p>Writing systems for modern storytellers.</p>
+      </div>
+      <div>
+        <strong>Explore</strong>
+        <div class="footer-links">
+          <a href="#curriculum">Curriculum</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+      </div>
+      <div>
+        <strong>Support</strong>
+        <div class="footer-links">
+          <a href="#faq">FAQ</a>
+          <a href="#">Contact</a>
+          <a href="#">Privacy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile sticky CTA -->
+  <div class="mobile-cta">
+    <a class="btn cta-glow" href="#pricing">Enroll now</a>
+  </div>
+
+  <script>
+    // Fade-up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-section, .fade-up').forEach(el => observer.observe(el));
+
+    // Header shadow on scroll
+    const header = document.querySelector('header');
+    const toggleHeaderShadow = () => {
+      if (window.scrollY > 8) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    toggleHeaderShadow();
+    window.addEventListener('scroll', toggleHeaderShadow);
+
+    // Countdown timer to next 12:00 AM IST (resets daily)
+    const countdownEl = document.getElementById('countdown');
+    function pad(n) { return n.toString().padStart(2, '0'); }
+    function getNextISTMidnight() {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Kolkata',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      const parts = formatter.formatToParts(now).reduce((acc, p) => {
+        acc[p.type] = p.value;
+        return acc;
+      }, {});
+      const istNow = new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}+05:30`);
+      let midnight = new Date(istNow);
+      midnight.setHours(24, 0, 0, 0);
+      return midnight;
+    }
+    let deadline = getNextISTMidnight();
+    function updateTimer() {
+      const now = new Date();
+      let diff = deadline - now;
+      if (diff <= 0) {
+        deadline = getNextISTMidnight();
+        diff = deadline - now;
+      }
+      const hrs = Math.floor(diff / 1000 / 60 / 60);
+      const mins = Math.floor((diff / 1000 / 60) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      if (countdownEl) countdownEl.textContent = `Offer ends in ${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+    }
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // Accordion ARIA sync
+    document.querySelectorAll('.module').forEach((mod) => {
+      mod.addEventListener('toggle', () => {
+        mod.setAttribute('aria-expanded', mod.open);
+      });
+    });
+  </script>
+</body>
+</html>
