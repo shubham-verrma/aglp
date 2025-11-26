@@ -4,6 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Course Landing</title>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '601073545772491');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=601073545772491&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
   <style>
     :root {
       --bg: #ffffff;
@@ -19,6 +36,7 @@
       --shadow-soft: 0 12px 34px rgba(15, 23, 42, 0.12);
       --shadow-card: 0 6px 18px rgba(15, 23, 42, 0.1);
       --max-width: 1200px;
+      --section-text-offset: 18px;
     }
 
     * { box-sizing: border-box; }
@@ -32,17 +50,25 @@
     }
     img { max-width: 100%; display: block; }
     a { color: inherit; text-decoration: none; }
-    h1, h2, h3, h4 { margin: 0 0 12px; font-weight: 700; line-height: 1.2; color: var(--ink); }
-    p { margin: 0 0 16px; color: var(--muted); }
+    h1, h2, h3, h4 { margin: 0 0 4px; font-weight: 700; line-height: 1.4; color: var(--ink); }
+    p { margin: 0 0 12px; color: var(--muted); }
 
     .container {
-      width: min(var(--max-width), 100% - 40px);
+      width: min(var(--max-width), 100% - 32px);
       margin: 0 auto;
     }
-    section { padding: 64px 0; position: relative; overflow: hidden; }
+    section {
+      padding: 11px 0;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    section:not(.hero-section) {
+      padding-top: calc(var(--section-text-offset));
+    }
     section + section { border-top: 1px solid rgba(15, 23, 42, 0.06); }
     main > section:nth-of-type(3n) { background: var(--muted-bg-2); }
-    @media (min-width: 1100px) { section { padding: 80px 0; } }
+    @media (min-width: 1100px) { section { padding: 13px 0; } }
 
     /* Animations */
     @keyframes fadeUp {
@@ -265,7 +291,7 @@
     .facts {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 10px;
       padding: 18px;
       border-radius: var(--radius);
       background: linear-gradient(135deg, #f9fafc, #eef2ff);
@@ -277,16 +303,22 @@
       width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
       display: inline-block;
     }
+    @media (max-width: 600px) {
+      .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     /* Generic grid helpers */
     .grid {
       display: grid;
-      gap: 20px;
+      gap: 12px;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
     @media (min-width: 720px) { .grid.cols-2 { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 960px) { .grid.cols-3 { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1100px) { .grid.cols-4 { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 768px) {
+      .grid { gap: 8px; }
+    }
 
     /* Cards */
     .card {
@@ -355,6 +387,19 @@
       border: 1px solid rgba(255,255,255,0.2);
       box-shadow: 0 12px 28px rgba(0,0,0,0.3);
     }
+    .instructor-points {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+    .instructor-pill {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.06);
+      padding: 12px 14px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      color: #e5e7eb;
+    }
     .book-cover {
       width: 90px;
       height: 130px;
@@ -384,7 +429,7 @@
     /* Bonus styling */
     .bonus-band {
       position: relative;
-      background: #000;
+      background: #4f46e5;
       overflow: hidden;
       color: #f8fafc;
     }
@@ -402,15 +447,16 @@
       animation: floatGift 4s ease-in-out infinite;
     }
     .bonus-card-accent {
-      border: 1px solid rgba(250,204,21,0.35);
-      box-shadow: 0 18px 36px rgba(0,0,0,0.35);
+      border: 1px solid rgba(250,204,21,0.45);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.25);
       padding: 28px;
-      background: #020617;
+      background: rgba(255,255,255,0.06);
+      color: #f8fafc;
     }
     .bonus-band h2 { color: #facc15; }
     .bonus-card-accent h3 { color: #facc15; }
-    .bonus-card-accent p { color: #e5e7eb; }
-    .bonus-subtext { color: #e5e7eb; opacity: 1; }
+    .bonus-card-accent p { color: #f8fafc; }
+    .bonus-subtext { color: #f8fafc; opacity: 1; }
     .bonus-glow {
       position: absolute;
       inset: 12px;
@@ -528,6 +574,255 @@
       .bonus-glow { animation: none; }
       .btn.cta-glow { animation: none; }
     }
+    .media-strip { width: 100%; }
+    .media-logos-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 6px 16px;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      height: 72px;
+    }
+    .media-logo {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 50px;
+      padding: 0.5rem 0.75rem;
+    }
+    .media-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: grayscale(100%);
+      opacity: 0.8;
+      transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
+    }
+    .media-logo img:hover {
+      opacity: 1;
+      filter: grayscale(0%);
+      transform: translateY(-2px);
+    }
+    @media (max-width: 768px) {
+      .media-logos-row {
+        justify-content: flex-start;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .media-logos-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Center headings on mobile for non-hero sections */
+      section h2,
+      section h3 {
+        text-align: center;
+      }
+      .hero-section h1,
+      .hero-section h2,
+      .hero-section h3 {
+        text-align: left;
+      }
+
+      /* Center common card content on mobile */
+      .card,
+      .testimonial-card,
+      .price-card,
+      .module,
+      .faq,
+      .facts,
+      .grid > * {
+        text-align: center;
+      }
+      .card > *,
+      .testimonial-card > *,
+      .price-card > *,
+      .module > *,
+      .faq > *,
+      .facts > *,
+      .grid > * > * {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card svg.icon,
+      .meta-item svg.icon {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .card-icon,
+      .stat-icon,
+      .bonus-icon,
+      .feature-icon {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 6px;
+      }
+
+      /* FAQ: keep left alignment on mobile for body copy */
+      #faq-section .section-subtext,
+      #faq-section p {
+        text-align: left;
+        margin-left: 0;
+        margin-right: 0;
+      }
+      #faq-section .faq,
+      #faq-section details {
+        text-align: left;
+        align-items: flex-start;
+      }
+      #faq-section summary {
+        justify-content: space-between;
+      }
+
+      /* FAQ mobile alignment and padding */
+      #faq-section .container,
+      #faq-section > div {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      #faq-section h2.section-title,
+      #faq-section h2,
+      #faq-heading {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+      #faq-section p,
+      #faq-section li,
+      #faq-section .faq-item p,
+      #faq-section .faq-content p,
+      #faq-section .faq-content li {
+        text-align: left;
+      }
+      #faq-section .faq-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
+      #faq-section .faq-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      #faq-section .faq-content {
+        padding-top: 10px;
+      }
+    }
+
+    /* Mobile sticky CTA */
+    .mobile-sticky-cta {
+      display: none;
+      background: #fff;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+      padding: 8px 12px;
+    }
+    .mobile-sticky-cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .mobile-sticky-pricing {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .mobile-sticky-timer {
+      color: #be185d;
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    .mobile-sticky-cta-button {
+      background: #22c55e;
+      color: #ffffff;
+      border: none;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    @media (max-width: 768px) {
+      .mobile-sticky-cta {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        display: block;
+        background: #ffffff;
+        box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.18);
+        padding: 8px 12px;
+      }
+      .mobile-sticky-cta-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .mobile-sticky-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+      }
+      .mobile-sticky-pricing {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+      .mobile-old-price {
+        text-decoration: line-through;
+        color: #9ca3af;
+        font-size: 0.8rem;
+      }
+      .mobile-new-price {
+        color: #111827;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .mobile-sticky-timer {
+        color: #dc2626;
+        font-weight: 600;
+        font-size: 0.8rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .mobile-sticky-cta-button {
+        flex-shrink: 0;
+        background: #22c55e;
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: 16px 32px;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 0 18px rgba(79,70,229,0.6);
+        animation: mobileCtaPulse 2s ease-in-out infinite;
+      }
+      @keyframes mobileCtaPulse {
+        0% { box-shadow: 0 0 12px rgba(79,70,229,0.45); transform: translateY(0); }
+        50% { box-shadow: 0 0 20px rgba(79,70,229,0.7); transform: translateY(-1px); }
+        100% { box-shadow: 0 0 12px rgba(79,70,229,0.45); transform: translateY(0); }
+      }
+    }
 
     /* CTA animation enhancement */
     .btn.cta-glow {
@@ -586,6 +881,48 @@
         margin-left: 8px;
       }
       .nav-actions { justify-content: center; }
+    }
+
+    /* Center subtext under section headings */
+    .section-subtext,
+    section h2 + p,
+    section h3 + p {
+      text-align: center;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Overrides: keep specific sections left-aligned */
+    #faq-section h2,
+    #faq-section h3,
+    #faq-section p {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+    }
+    #curriculum p,
+    #curriculum li {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .testimonial-card p,
+    .testimonial-card strong,
+    .testimonial-card blockquote {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    #pricing h2,
+    #pricing h3,
+    #pricing p,
+    #pricing .list,
+    #pricing .list li {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     @media (min-width: 1024px) {
@@ -747,7 +1084,7 @@
         </div>
         <div class="nav-actions nav-cta-group">
           <a class="btn ghost" href="#curriculum">View Curriculum</a>
-          <a class="btn" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Enroll Now</a>
+          <a class="btn" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Enroll Now</a>
         </div>
         <button class="nav-hamburger" aria-label="Open menu">
           <span></span>
@@ -764,7 +1101,7 @@
       <div class="hero-glow"></div>
       <div class="container hero">
         <div class="hero-copy hero-text-col">
-          <span class="headline-wrap hero-tag">Online Writing Certification</span>
+          <span class="headline-wrap hero-tag">Think to Ink – Writing Course</span>
           <h1 class="hero-title heading-xl">“Dil mein kahani… par page par sirf blank space?”</h1>
           <div class="hero-media hero-video">
             Video preview placeholder
@@ -781,7 +1118,7 @@
             <div id="countdown" style="font-weight:700; color:#be185d; background: rgba(190,24,93,0.08); padding:8px 12px; border-radius:999px; border:1px solid rgba(190,24,93,0.2);">Offer ends in --:--:--</div>
           </div>
           <div class="nav-actions hero-ctas" style="gap:12px;">
-            <a class="btn cta-glow primary-cta" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Enroll Now for ₹2,499</a>
+          <a class="btn cta-glow primary-cta" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Enroll Now for ₹2,499</a>
             <a class="btn ghost secondary-cta" href="#curriculum">View Curriculum</a>
           </div>
           <div class="hero-social" style="display:flex; align-items:center; gap:10px; flex-wrap:wrap; color:var(--muted);">
@@ -795,7 +1132,7 @@
                 <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.92 4 12 4 12 4s-6.92 0-8.59.45A2.78 2.78 0 0 0 1.46 6.4 29.4 29.4 0 0 0 1 12a29.4 29.4 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.08 20 12 20 12 20s6.92 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29.4 29.4 0 0 0 23 12a29.4 29.4 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12z"></path>
               </svg>
             </span>
-            <span style="font-weight:700; color:var(--ink);" class="hero-social-text">2 Million+ readers, viewers and followers across platforms</span>
+            <span style="font-weight:700; color:var(--ink);" class="hero-social-text">2 Million+ across platforms</span>
           </div>
           <div class="hero-meta hero-features">
             <div class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 12c0-4.418 3.582-8 8-8a8 8 0 1 1-5.657 13.657" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Lifetime Access</div>
@@ -872,19 +1209,19 @@
         </div>
         <div class="grid cols-2">
           <article class="card">
-            <h3>“Idea toh hoti hai, but clarity nahi”</h3>
+            <h3>❌ “Idea toh hoti hai, but clarity nahi”</h3>
             <p>You have scenes, characters, imagination… but no structure to start.</p>
           </article>
           <article class="card">
-            <h3>“Main likhne baithta hoon, but kuch jamta hi nahi”</h3>
+            <h3>😶‍🌫️ “Main likhne baithta hoon, but kuch jamta hi nahi”</h3>
             <p>Blank page anxiety. Overthinking. Zero flow.</p>
           </article>
           <article class="card">
-            <h3>“Characters feel boring or predictable”</h3>
+            <h3>🧊 “Characters feel boring or predictable”</h3>
             <p>You know what they should do, but not how to make them feel real.</p>
           </article>
           <article class="card">
-            <h3>“I don’t know if my story is good enough”</h3>
+            <h3>🤔 “I don’t know if my story is good enough”</h3>
             <p>Self-doubt kills momentum. You restart again and again.</p>
           </article>
         </div>
@@ -900,19 +1237,19 @@
         </div>
         <div class="grid cols-2">
           <div class="card">
-            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Ability to complete your story</h3>
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>✍️ Ability to complete your story</h3>
             <p>Whether it’s a book, short film, microdrama or branded script — you’ll know exactly how to take it from idea to finished draft.</p>
           </div>
           <div class="card">
-            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Confidence to write for any format</h3>
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>🎯 Confidence to write for any format</h3>
             <p>Books, films, reels, ads, dialogues, monologues — storytelling becomes your skill, not guesswork.</p>
           </div>
           <div class="card">
-            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Publish-ready story discipline</h3>
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>✅ Publish-ready story discipline</h3>
             <p>You’ll learn how to structure, edit and refine your writing like a professional.</p>
           </div>
           <div class="card">
-            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Multiple career unlocks</h3>
+            <h3><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M5 12l4 4 10-10" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>🚀 Multiple career unlocks</h3>
             <p>After the course, you can explore writing roles for OTT, D2C brands, creators, fiction, microcontent, podcasts, short films, and more.</p>
           </div>
         </div>
@@ -929,7 +1266,7 @@
         <div class="curriculum" id="modules">
           <!-- Module 1 -->
           <details class="module open" aria-expanded="true" open>
-            <summary class="heading-md" aria-controls="module-1">Module 1 — Unlocking the Fiction Writer Within <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-1">📚 Module 1 — Unlocking the Fiction Writer Within <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Find your voice, genre & core story idea.</p>
             <ul class="list" id="module-1" style="margin-top:10px;">
               <li>Understanding genres & subgenres</li>
@@ -940,7 +1277,7 @@
           </details>
           <!-- Module 2 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-2">Module 2 — Shaping Your Fictional World <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-2">🧭 Module 2 — Shaping Your Fictional World <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Build the foundation that makes stories believable.</p>
             <ul class="list" id="module-2" style="margin-top:10px;">
               <li>SWOT of writer + story</li>
@@ -951,7 +1288,7 @@
           </details>
           <!-- Module 3 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-3">Module 3 — Mastering Structure & Flow <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-3">📐 Module 3 — Mastering Structure & Flow <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">The architecture behind page-turning fiction.</p>
             <ul class="list" id="module-3" style="margin-top:10px;">
               <li>Three-act story model</li>
@@ -962,7 +1299,7 @@
           </details>
           <!-- Module 4 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-4">Module 4 — Bringing Characters to Life <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-4">🧠 Module 4 — Bringing Characters to Life <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Make readers FEEL your characters.</p>
             <ul class="list" id="module-4" style="margin-top:10px;">
               <li>Protagonist & antagonist depth</li>
@@ -973,7 +1310,7 @@
           </details>
           <!-- Module 5 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-5">Module 5 — World-Building & Imagination <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-5">🌍 Module 5 — World-Building & Imagination <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Construct immersive worlds readers won’t want to leave.</p>
             <ul class="list" id="module-5" style="margin-top:10px;">
               <li>Sensory description mastery</li>
@@ -984,7 +1321,7 @@
           </details>
           <!-- Module 6 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-6">Module 6 — Writing, Editing & Finishing Strong <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-6">📝 Module 6 — Writing, Editing & Finishing Strong <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">This is where ideas become books/films.</p>
             <ul class="list" id="module-6" style="margin-top:10px;">
               <li>Drafting without blocks</li>
@@ -995,7 +1332,7 @@
           </details>
         </div>
         <div class="nav-actions" style="margin-top:18px;">
-          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Enroll now for ₹2,499</a>
+          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Enroll now for ₹2,499</a>
         </div>
       </div>
     </section>
@@ -1035,27 +1372,17 @@
           <div class="instructor-photo" style="padding:8px; background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));">
             <img src="ag1.jpg" alt="Akshat Gupta – author of The Hidden Hindu and The Naga Warriors" class="instructor-photo-img">
           </div>
-          <div class="card">
+          <div class="card" style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#e5e7eb;">
             <h2>Meet your instructor</h2>
-            <p>Akshat Gupta is the bestselling author behind The Hidden Hindu and The Naga Warriors — two of India’s most consumed mythological universes. His work blends mythology, sci-fi, history and thriller pacing, earning millions of readers and a dedicated fanbase.</p>
-            <p>With OTT adaptations underway and multiple books in motion, Akshat brings a decade of hands-on storytelling experience straight to your writing desk.</p>
-            <div style="display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
-              <div>
-                <strong>2M+ audience across platforms</strong>
-                <p style="margin:4px 0 0;">Readers, viewers, and followers.</p>
-              </div>
-              <div>
-                <strong>700,000+ books sold</strong>
-                <p style="margin:4px 0 0;">Across his mythological universes.</p>
-              </div>
-              <div>
-                <strong>Bestseller in multiple formats</strong>
-                <p style="margin:4px 0 0;">Print, digital, and audio success.</p>
-              </div>
-              <div>
-                <strong>10+ years of writing & screen development</strong>
-                <p style="margin:4px 0 0;">From page to OTT adaptations.</p>
-              </div>
+            <p style="color:#e5e7eb;">Akshat Gupta is the bestselling author behind The Hidden Hindu and The Naga Warriors — two of India’s most consumed mythological universes. His work blends mythology, sci-fi, history and thriller pacing, earning millions of readers and a dedicated fanbase.</p>
+            <p style="color:#e5e7eb;">With OTT adaptations underway and multiple books in motion, Akshat brings a decade of hands-on storytelling experience straight to your writing desk.</p>
+            <div class="instructor-points">
+              <div class="instructor-pill">🏆 Bestselling author across formats</div>
+              <div class="instructor-pill">📚 Multiple hit mythological series</div>
+              <div class="instructor-pill">👥 Thousands of students mentored</div>
+              <div class="instructor-pill">🎬 Active in screen & OTT adaptations</div>
+              <div class="instructor-pill">✍️ 10+ years of writing discipline</div>
+              <div class="instructor-pill">🌐 2M+ readers & viewers</div>
             </div>
           </div>
         </div>
@@ -1096,13 +1423,13 @@
           </article>
         </div>
         <div class="nav-actions" style="margin-top:20px;">
-          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Join them — Enroll now</a>
+          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Join them — Enroll now</a>
         </div>
       </div>
     </section>
 
     <!-- Bonus -->
-    <section class="fade-section fade-up bonus-band" style="background: #020617;">
+    <section class="fade-section fade-up bonus-band" style="background: #4f46e5;">
       <div class="container" style="position:relative; z-index:1;">
         <div class="section-head" id="bonuses" style="display:flex; align-items:center; gap:12px;">
           <div class="bonus-badge">🎁</div>
@@ -1113,24 +1440,24 @@
         </div>
         <div class="grid cols-2">
           <article class="card bonus-card-accent">
-            <h3>Writing Assignments</h3>
+            <h3>🎁 Writing Assignments</h3>
             <p>Practice-based tasks to strengthen your craft.</p>
           </article>
           <article class="card bonus-card-accent">
-            <h3>Certificate of Completion</h3>
+            <h3>🎁 Certificate of Completion</h3>
             <p>A verified certificate to showcase your learning.</p>
           </article>
           <article class="card bonus-card-accent">
-            <h3>Lifetime Access</h3>
+            <h3>🎁 Lifetime Access</h3>
             <p>Revisit lessons anytime, forever.</p>
           </article>
           <article class="card bonus-card-accent">
-            <h3>Priority WhatsApp Support</h3>
+            <h3>🎁 Priority WhatsApp Support</h3>
             <p>Get faster responses, nudges and guidance directly via WhatsApp.</p>
           </article>
         </div>
         <div class="nav-actions" style="margin-top:20px;">
-          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" style="background: linear-gradient(135deg, #facc15, #f97316); color:#111827; border:none; box-shadow: 0 12px 28px rgba(250,204,21,0.35);">Claim bonuses with enrollment</a>
+          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" style="background: #16a34a; color:#fff; border:none; box-shadow: 0 12px 28px rgba(0,0,0,0.2);" onclick="fbq('track','ViewContent');">Claim bonuses with enrollment</a>
         </div>
       </div>
     </section>
@@ -1192,7 +1519,7 @@
               <li>Certification on Completion</li>
             </ul>
             <div class="nav-actions" style="margin-top:12px;">
-              <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Enroll now for ₹2,499</a>
+              <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Enroll now for ₹2,499</a>
             </div>
           </article>
         </div>
@@ -1200,7 +1527,8 @@
     </section>
 
     <!-- FAQ -->
-    <section class="fade-section fade-up" id="faq">
+    <section class="fade-section fade-up" id="faq-section">
+      <div id="faq"></div>
       <div class="container">
         <div class="section-head">
           <h2>FAQ</h2>
@@ -1266,8 +1594,17 @@
   </footer>
 
   <!-- Mobile sticky CTA -->
-  <div class="mobile-cta">
-    <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342">Enroll now</a>
+  <div class="mobile-cta mobile-sticky-cta">
+    <div class="mobile-sticky-cta-inner">
+      <div class="mobile-sticky-info">
+        <div class="mobile-sticky-pricing">
+          <span class="mobile-old-price">₹2,999</span>
+          <span class="mobile-new-price">₹2,499</span>
+        </div>
+        <div class="mobile-sticky-timer" id="mobile-countdown">Ends in --:--:--</div>
+      </div>
+      <a class="mobile-sticky-cta-button" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Enroll Now</a>
+    </div>
   </div>
 
   <script>
@@ -1294,6 +1631,7 @@
 
     // Countdown timer to next 12:00 AM IST (resets daily)
     const countdownEl = document.getElementById('countdown');
+    const mobileCountdownEl = document.getElementById('mobile-countdown');
     function pad(n) { return n.toString().padStart(2, '0'); }
     function getNextISTMidnight() {
       const now = new Date();
@@ -1311,10 +1649,13 @@
         acc[p.type] = p.value;
         return acc;
       }, {});
-      const istNow = new Date(`${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}+05:30`);
-      let midnight = new Date(istNow);
-      midnight.setHours(24, 0, 0, 0);
-      return midnight;
+      const year = Number(parts.year);
+      const month = Number(parts.month);
+      const day = Number(parts.day);
+      // Midnight IST of the next day converted to absolute time
+      const nextMidnightIST = new Date(`${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}T00:00:00+05:30`);
+      nextMidnightIST.setUTCDate(nextMidnightIST.getUTCDate() + 1);
+      return nextMidnightIST;
     }
     let deadline = getNextISTMidnight();
     function updateTimer() {
@@ -1327,7 +1668,9 @@
       const hrs = Math.floor(diff / 1000 / 60 / 60);
       const mins = Math.floor((diff / 1000 / 60) % 60);
       const secs = Math.floor((diff / 1000) % 60);
-      if (countdownEl) countdownEl.textContent = `Offer ends in ${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+      const text = `Offer ends in ${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+      if (countdownEl) countdownEl.textContent = text;
+      if (mobileCountdownEl) mobileCountdownEl.textContent = text;
     }
     updateTimer();
     setInterval(updateTimer, 1000);
