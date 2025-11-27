@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Course Landing</title>
+  <meta property="og:title" content="Think to Ink – Book and Film Writing Course" />
+  <meta property="og:description" content="A premium 6-week online course by India’s bestselling author Akshat Gupta. Learn structured fiction and screenplay writing with real assignments, system-led modules, and a clear publish-ready roadmap." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Think to Ink – Book and Film Writing Course" />
+  <meta name="twitter:description" content="A premium 6-week online course by India’s bestselling author Akshat Gupta. Learn structured fiction and screenplay writing with real assignments, system-led modules, and a clear publish-ready roadmap." />
   <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s)
@@ -21,6 +27,16 @@
     src="https://www.facebook.com/tr?id=601073545772491&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.getElementById('trusted-voices') || l.createElement(r);
+          t.async=1;
+          t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];
+          y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "q2fewp6cme");
+  </script>
   <style>
     :root {
       --bg: #ffffff;
@@ -253,31 +269,13 @@
       overflow: hidden;
     }
     .hero-media > * { position: relative; z-index: 2; }
-    .hero-media::after {
-      content: "";
-      position: absolute;
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: 2px solid var(--accent);
-      background: #fff;
-      box-shadow: var(--shadow-card);
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: grid;
-      place-items: center;
-    }
-    .hero-media::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-45%, -50%);
-      border-left: 14px solid var(--accent);
-      border-top: 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      z-index: 1;
+    .hero-trailer {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+      margin: 0 auto;
+      box-shadow: 0 0 14px rgba(255,255,255,0.08);
+      will-change: transform;
     }
     @media (min-width: 900px) {
       .hero { grid-template-columns: 1.05fr 0.95fr; gap: 56px; }
@@ -574,6 +572,7 @@
       .bonus-badge { animation: none; }
       .bonus-glow { animation: none; }
       .btn.cta-glow { animation: none; }
+      .hero-trailer { animation: none; }
     }
     .media-strip { width: 100%; }
     .media-logos-row {
@@ -736,7 +735,7 @@
       display: flex;
       align-items: center;
       gap: 20px;
-      animation: trusted-scroll 26s linear infinite;
+      animation: trusted-scroll 16s linear infinite;
     }
     .trusted-slide {
       flex: 0 0 auto;
@@ -770,7 +769,7 @@
       100% { transform: translateX(-50%); }
     }
     @media (max-width: 768px) {
-      .trusted-carousel-track { animation-duration: 32s; }
+      .trusted-carousel-track { animation-duration: 12s; }
       .trusted-slide {
         width: auto;
         height: auto;
@@ -972,6 +971,8 @@
       }
       .nav-actions { justify-content: center; }
       .header-cta-price { display: none; }
+      /* Hide "Join them" prefix in testimonials CTA on mobile */
+      .cta-join-prefix { display: none; }
     }
 
     /* Center subtext under section headings */
@@ -1195,8 +1196,10 @@
           <span class="headline-wrap hero-tag">✍️ Think to Ink – Book and Film Writing Course</span>
           <h1 class="hero-title heading-xl hero-tagline">“Writing is a Skill, Thinking is an Art”</h1>
           <div class="hero-media hero-video">
-            Video preview placeholder
-            <p style="margin:8px 0 0; color:var(--muted); font-weight:600;">Watch the course trailer</p>
+            <video class="hero-trailer" controls autoplay loop playsinline preload="metadata">
+              <source src="./Main Think to Ink Trailer_1.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
           <p class="body-lg hero-sub">Learn a simple, proven storytelling system from bestselling author Akshat Gupta — and finally turn your ideas into stories, books, scripts and scenes that actually get finished.</p>
           <p class="body-md hero-instructor" style="margin:0; font-weight:700; color:var(--muted);">By Akshat Gupta, National Bestselling Author & Storyteller</p>
@@ -1522,7 +1525,7 @@
           </article>
         </div>
         <div class="nav-actions" style="margin-top:20px;">
-          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');">Join them — Enroll now <s>₹2,999</s> ₹2,499</a>
+          <a class="btn cta-glow" href="https://akshatgupta.exlyapp.com/checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342" onclick="fbq('track','ViewContent');"><span class="cta-join-prefix">Join them — </span>Enroll now <s>₹2,999</s> ₹2,499</a>
         </div>
       </div>
     </section>
