@@ -198,7 +198,7 @@
       grid-template-columns: 1fr;
       gap: 40px;
       align-items: center;
-      padding-top: 32px;
+      padding-top: 8px;
     }
     .hero-copy { display: grid; gap: 18px; max-width: 640px; }
     .headline-wrap {
@@ -210,6 +210,7 @@
       font-weight: 700;
       letter-spacing: 0.01em;
     }
+    .headline-wrap.hero-tag { text-align: left; }
     .hero-title {
       font-size: clamp(34px, 4.6vw, 52px);
       background: linear-gradient(120deg, #0f172a, #4338ca);
@@ -384,8 +385,8 @@
       border-radius: var(--radius);
       object-fit: cover;
       display: block;
-      border: 1px solid rgba(255,255,255,0.2);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+      border: 1px solid rgba(15,23,42,0.06);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
     }
     .instructor-points {
       display: grid;
@@ -394,11 +395,11 @@
     }
     .instructor-pill {
       border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(15,23,42,0.1);
+      background: #ffffff;
       padding: 12px 14px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
-      color: #e5e7eb;
+      box-shadow: 0 10px 24px rgba(15,23,42,0.06);
+      color: #111827;
     }
     .book-cover {
       width: 90px;
@@ -720,6 +721,85 @@
       }
     }
 
+    /* Trusted by Top Voices */
+    .trusted-voices-section {
+      padding-top: 24px;
+      padding-bottom: 24px;
+      background: #000000;
+    }
+    .trusted-carousel-wrapper {
+      position: relative;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .trusted-carousel-track {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: trusted-scroll 26s linear infinite;
+    }
+    .trusted-slide {
+      flex: 0 0 auto;
+      width: auto;
+      height: auto;
+      max-width: 220px;
+      position: relative;
+      border-radius: 12px;
+      padding: 4px;
+      background: linear-gradient(90deg, #ffffff, rgba(255,255,255,0.7), #ffffff);
+      background-size: 200% 200%;
+      animation: border-scroll 6s linear infinite;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      transform: translateY(0);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .trusted-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #000;
+      border-radius: 10px;
+    }
+    .trusted-slide:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+    }
+    @keyframes trusted-scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    @media (max-width: 768px) {
+      .trusted-carousel-track { animation-duration: 32s; }
+      .trusted-slide {
+        width: auto;
+        height: auto;
+        max-width: 160px;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .trusted-carousel-track {
+        animation: none;
+        transform: translateX(0);
+      }
+      .trusted-slide {
+        animation: none;
+        background: #fff;
+      }
+    }
+    @keyframes border-scroll {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    /* Trusted voices text colors */
+    #trusted-voices .section-title,
+    #trusted-voices h2 {
+      color: #ffffff;
+    }
+    #trusted-voices p,
+    #trusted-voices .section-subtext {
+      color: rgba(255,255,255,0.85);
+    }
     /* Mobile sticky CTA */
     .mobile-sticky-cta {
       display: none;
@@ -846,6 +926,7 @@
         align-items: center;
         justify-content: center;
       }
+      .hero-tagline { text-align: center; }
       .hero-ctas .primary-cta,
       .hero-ctas .secondary-cta {
         width: 100%;
@@ -855,6 +936,15 @@
         align-items: center;
         white-space: nowrap;
         box-sizing: border-box;
+      }
+      .hero-tagline {
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        width: 100%;
+      }
+      .hero-section p:not(.hero-tagline) {
+        text-align: left;
       }
       .nav-cta-group {
         display: flex;
@@ -1101,8 +1191,8 @@
       <div class="hero-glow"></div>
       <div class="container hero">
         <div class="hero-copy hero-text-col">
-          <span class="headline-wrap hero-tag">Think to Ink – Writing Course</span>
-          <h1 class="hero-title heading-xl">“Dil mein kahani… par page par sirf blank space?”</h1>
+          <span class="headline-wrap hero-tag">✍️ Think to Ink – Book and Film Writing Course</span>
+          <h1 class="hero-title heading-xl hero-tagline">“Writing is a Skill, Thinking is an Art”</h1>
           <div class="hero-media hero-video">
             Video preview placeholder
             <p style="margin:8px 0 0; color:var(--muted); font-weight:600;">Watch the course trailer</p>
@@ -1176,30 +1266,56 @@
       </div>
     </section>
 
-    <!-- Key facts -->
-    <section class="fade-section fade-up">
-      <div class="container">
-        <div class="facts">
-          <div class="fact">
-            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M6 4h12v14H6z" stroke-width="2"/><path d="M9 7h6M9 11h6M9 15h4" stroke-width="2" stroke-linecap="round"/></svg>700,000+</strong>
-            <span>Books Sold by Akshat</span>
+    <!-- Instructor -->
+    <section class="fade-section fade-up" style="background: #f9fafc;">
+      <div class="container" style="color:#111827;">
+        <div class="instructor-wrap">
+          <div class="instructor-photo" style="padding:8px; background: linear-gradient(160deg, #eef2ff, #ffffff); border:1px solid rgba(15,23,42,0.06);">
+            <img src="ag1.jpg" alt="Akshat Gupta – author of The Hidden Hindu and The Naga Warriors" class="instructor-photo-img">
           </div>
-          <div class="fact">
-            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M7 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM17 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke-width="2"/><path d="M2 20c0-3.314 2.686-6 6-6h1" stroke-width="2" stroke-linecap="round"/><path d="M14 20c0-2.761 2.239-5 5-5h1" stroke-width="2" stroke-linecap="round"/></svg>10,000+</strong>
-            <span>Learners Already Enrolled</span>
-          </div>
-          <div class="fact">
-            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z" stroke-width="2"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" stroke-width="2" stroke-linecap="round"/></svg>2,000,000+</strong>
-            <span>Audience Across Platforms</span>
-          </div>
-          <div class="fact">
-            <strong><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M7 3h10v18H7z" stroke-width="2"/><path d="M7 8h10" stroke-width="2" stroke-linecap="round"/><path d="M7 13h6" stroke-width="2" stroke-linecap="round"/></svg>10+ Years</strong>
-            <span>Writing, Screenplay & Storytelling Experience</span>
+          <div class="card" style="background: #ffffff; border:1px solid rgba(15,23,42,0.08); color:#111827; box-shadow: 0 8px 24px rgba(15,23,42,0.08);">
+            <h2>Meet your instructor</h2>
+            <p>Akshat Gupta is the bestselling author behind The Hidden Hindu and The Naga Warriors — two of India’s most consumed mythological universes. His work blends mythology, sci-fi, history and thriller pacing, earning millions of readers and a dedicated fanbase.</p>
+            <p>With OTT adaptations underway and multiple books in motion, Akshat brings a decade of hands-on storytelling experience straight to your writing desk.</p>
+            <div class="instructor-points">
+              <div class="instructor-pill">🏆 Bestselling author across formats</div>
+              <div class="instructor-pill">📚 Multiple hit mythological series</div>
+              <div class="instructor-pill">👥 Thousands of students mentored</div>
+              <div class="instructor-pill">🎬 Active in screen & OTT adaptations</div>
+              <div class="instructor-pill">✍️ 10+ years of writing discipline</div>
+              <div class="instructor-pill">🌐 2M+ readers & viewers</div>
+              <div class="instructor-pill">📚 700,000+ Books Sold by Akshat</div>
+              <div class="instructor-pill">👥 12,000+ Learners Already Enrolled</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
+
+    <!-- Trusted by Top Voices -->
+    <section id="trusted-voices" class="fade-section fade-up trusted-voices-section">
+      <div class="container">
+        <h2 class="section-title">Trusted by Top Voices</h2>
+
+        <div class="trusted-carousel-wrapper">
+          <div class="trusted-carousel-track">
+            <div class="trusted-slide"><img src="podcast1.png" alt="Podcast 1"></div>
+            <div class="trusted-slide"><img src="podcast2.png" alt="Podcast 2"></div>
+            <div class="trusted-slide"><img src="podcast3.png" alt="Podcast 3"></div>
+            <div class="trusted-slide"><img src="podcast4.png" alt="Podcast 4"></div>
+            <div class="trusted-slide"><img src="podcast5.png" alt="Podcast 5"></div>
+            <div class="trusted-slide"><img src="podcast6.png" alt="Podcast 6"></div>
+            <div class="trusted-slide"><img src="podcast1.png" alt="Podcast 1"></div>
+            <div class="trusted-slide"><img src="podcast2.png" alt="Podcast 2"></div>
+            <div class="trusted-slide"><img src="podcast3.png" alt="Podcast 3"></div>
+            <div class="trusted-slide"><img src="podcast4.png" alt="Podcast 4"></div>
+            <div class="trusted-slide"><img src="podcast5.png" alt="Podcast 5"></div>
+            <div class="trusted-slide"><img src="podcast6.png" alt="Podcast 6"></div>
+          </div>
+        </div>
+      </div>
+    </section>
     <!-- Problems -->
     <section class="fade-section fade-up dark-section" style="background: linear-gradient(135deg, #0f172a, #0b1224);">
       <div class="container">
@@ -1209,20 +1325,28 @@
         </div>
         <div class="grid cols-2">
           <article class="card">
-            <h3>❌ “Idea toh hoti hai, but clarity nahi”</h3>
-            <p>You have scenes, characters, imagination… but no structure to start.</p>
+            <h3>✍️ “I want a PASSIVE writing career, but I don’t know the path.”</h3>
+            <p>You dream of book deals, OTT writers rooms, brand scripting or storytelling for creators. But there’s no roadmap for income streams, pricing your skill, or pitching your work. This course bridges that gap.</p>
           </article>
           <article class="card">
-            <h3>😶‍🌫️ “Main likhne baithta hoon, but kuch jamta hi nahi”</h3>
-            <p>Blank page anxiety. Overthinking. Zero flow.</p>
+            <h3>📘 “My manuscript has reach, but no ‘publish’ strategy.”</h3>
+            <p>A story without market positioning, audience hooks, or publisher lens rarely becomes a sold book. The module teaches how to shape your idea into something publishers can sell.</p>
           </article>
           <article class="card">
-            <h3>🧊 “Characters feel boring or predictable”</h3>
-            <p>You know what they should do, but not how to make them feel real.</p>
+            <h3>💡 “I have ideas, but I lack creative execution.”</h3>
+            <p>Creativity isn’t missing. Process is. The course builds systems that help you convert ideas into finished chapters and scenes, consistently.</p>
           </article>
           <article class="card">
-            <h3>🤔 “I don’t know if my story is good enough”</h3>
-            <p>Self-doubt kills momentum. You restart again and again.</p>
+            <h3>🚀 “Jab likhna shuru karna chahta hoon but SHURU hi nahi hota.”</h3>
+            <p>Career pehle banana hai, but SKILL bina sellable format ke nahi banti. First module gives you the exact start point.</p>
+          </article>
+          <article class="card">
+            <h3>🗣 “Publisher ko pitch karne jaata hoon toh lagta hai, kya bolu?”</h3>
+            <p>Market angle, copies long term and publish potential ka hook sabse PEHLA step hai. You get one line USP practice here.</p>
+          </article>
+          <article class="card">
+            <h3>🎬 “Microdrama, ads, reels, films likh sakta hoon, but flow nahi aata.”</h3>
+            <p>Sab formats se paise ban sakte hai jab kahani aur structure clear ho. This course sets that foundation.</p>
           </article>
         </div>
       </div>
@@ -1255,7 +1379,6 @@
         </div>
       </div>
     </section>
-
     <!-- Curriculum -->
     <section class="fade-section fade-up" id="curriculum" style="background: radial-gradient(circle at 15% 20%, rgba(99,102,241,0.08), transparent 45%), linear-gradient(135deg, #f8f9ff, #ffffff);">
       <div class="container">
@@ -1266,7 +1389,7 @@
         <div class="curriculum" id="modules">
           <!-- Module 1 -->
           <details class="module open" aria-expanded="true" open>
-            <summary class="heading-md" aria-controls="module-1">📚 Module 1 — Unlocking the Fiction Writer Within <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-1">📚 Module 1 — Unlocking the Writer Within <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Find your voice, genre & core story idea.</p>
             <ul class="list" id="module-1" style="margin-top:10px;">
               <li>Understanding genres & subgenres</li>
@@ -1277,7 +1400,7 @@
           </details>
           <!-- Module 2 -->
           <details class="module" aria-expanded="false">
-            <summary class="heading-md" aria-controls="module-2">🧭 Module 2 — Shaping Your Fictional World <span class="chevron">⌄</span></summary>
+            <summary class="heading-md" aria-controls="module-2">🧭 Module 2 — Shaping Your World <span class="chevron">⌄</span></summary>
             <p class="body-md" style="margin:4px 18px 10px;">Build the foundation that makes stories believable.</p>
             <ul class="list" id="module-2" style="margin-top:10px;">
               <li>SWOT of writer + story</li>
@@ -1364,31 +1487,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Instructor -->
-    <section class="fade-section fade-up dark-section" style="background: linear-gradient(135deg, #0f172a, #0b1020);">
-      <div class="container">
-        <div class="instructor-wrap">
-          <div class="instructor-photo" style="padding:8px; background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));">
-            <img src="ag1.jpg" alt="Akshat Gupta – author of The Hidden Hindu and The Naga Warriors" class="instructor-photo-img">
-          </div>
-          <div class="card" style="background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); color:#e5e7eb;">
-            <h2>Meet your instructor</h2>
-            <p style="color:#e5e7eb;">Akshat Gupta is the bestselling author behind The Hidden Hindu and The Naga Warriors — two of India’s most consumed mythological universes. His work blends mythology, sci-fi, history and thriller pacing, earning millions of readers and a dedicated fanbase.</p>
-            <p style="color:#e5e7eb;">With OTT adaptations underway and multiple books in motion, Akshat brings a decade of hands-on storytelling experience straight to your writing desk.</p>
-            <div class="instructor-points">
-              <div class="instructor-pill">🏆 Bestselling author across formats</div>
-              <div class="instructor-pill">📚 Multiple hit mythological series</div>
-              <div class="instructor-pill">👥 Thousands of students mentored</div>
-              <div class="instructor-pill">🎬 Active in screen & OTT adaptations</div>
-              <div class="instructor-pill">✍️ 10+ years of writing discipline</div>
-              <div class="instructor-pill">🌐 2M+ readers & viewers</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Testimonials -->
     <section class="fade-section fade-up">
       <div class="container testimonials">
