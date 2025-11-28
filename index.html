@@ -27,6 +27,18 @@
     src="https://www.facebook.com/tr?id=601073545772491&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <script>
+    function getAllUTMs() {
+      const params = new URLSearchParams(window.location.search);
+      const utms = {};
+      params.forEach((v, k) => {
+        if (k.startsWith('utm_')) {
+          utms[k] = v;
+        }
+      });
+      return utms;
+    }
+  </script>
   <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -1783,6 +1795,111 @@
         mod.setAttribute('aria-expanded', mod.open);
       });
     });
+
+    // UTM capture and propagation
+    function setPixelUTMs(eventName, payload = {}) {
+      const stored = sessionStorage.getItem('utm_full') || '';
+      const utmObj = {};
+      if (stored) {
+        const usp = new URLSearchParams(stored);
+        usp.forEach((v, k) => { utmObj[k] = v; });
+      }
+      if (window.fbq && eventName) {
+        fbq('track', eventName, { ...utmObj, ...payload });
+      }
+      return { ...utmObj, ...payload };
+    }
+
+    function appendUTMToCTAs(utmStr) {
+      if (!utmStr) return;
+      const links = document.querySelectorAll('a[href*="checkout/89cfdd52-1c6b-4576-b70e-b6b3e0c97342"]');
+      links.forEach((link) => {
+        if (link.closest('.hero-section') || link.classList.contains('primary-cta') || link.classList.contains('mobile-sticky-cta-button')) {
+          return;
+        }
+        const url = new URL(link.href, window.location.href);
+        const utmParams = new URLSearchParams(utmStr);
+        utmParams.forEach((v, k) => {
+          if (!url.searchParams.has(k)) {
+            url.searchParams.set(k, v);
+          }
+        });
+        link.href = url.toString();
+      });
+    }
+
+    window.addEventListener('load', () => {
+      const utms = getAllUTMs();
+      const usp = new URLSearchParams(utms);
+      const utm_full = usp.toString();
+      if (utm_full) {
+        sessionStorage.setItem('utm_full', utm_full);
+      }
+      const storedUTM = sessionStorage.getItem('utm_full');
+      if (storedUTM) {
+        appendUTMToCTAs(storedUTM);
+      }
+    });
+  </script>
+  <script>
+  (function() {
+    function getUTMObjectFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const obj = {
+        source: params.get('utm_source') || '',
+        medium: params.get('utm_medium') || '',
+        campaign: params.get('utm_campaign') || '',
+        content: params.get('utm_content') || '',
+        term: params.get('utm_term') || '',
+        id: params.get('utm_id') || '',
+        referer: document.referrer || ''
+      };
+      const hasAny = Object.values(obj).some(Boolean);
+      return hasAny ? obj : null;
+    }
+
+    function loadOrInitUTM() {
+      let utm = getUTMObjectFromUrl();
+      if (!utm) {
+        const stored = sessionStorage.getItem('ag_utm');
+        if (stored) {
+          try { utm = JSON.parse(stored); } catch (e) { utm = null; }
+        }
+      } else {
+        sessionStorage.setItem('ag_utm', JSON.stringify(utm));
+      }
+      if (utm) {
+        window.utmData = utm;
+      }
+      return utm;
+    }
+
+    function appendUTMsToUrl(url, utm) {
+      if (!utm) return url;
+      try {
+        const u = new URL(url, window.location.origin);
+        if (utm.source)   u.searchParams.set('utm_source', utm.source);
+        if (utm.medium)   u.searchParams.set('utm_medium', utm.medium);
+        if (utm.campaign) u.searchParams.set('utm_campaign', utm.campaign);
+        if (utm.content)  u.searchParams.set('utm_content', utm.content);
+        if (utm.term)     u.searchParams.set('utm_term', utm.term);
+        if (utm.id)       u.searchParams.set('utm_id', utm.id);
+        return u.toString();
+      } catch (e) {
+        return url;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const utm = loadOrInitUTM();
+      if (!utm) return;
+      const selector = 'a[data-utm="true"], a[href*="offer"], a[href*="exlyapp.com"], a[href*="checkout"]';
+      document.querySelectorAll(selector).forEach(function(a) {
+        if (!a.href) return;
+        a.href = appendUTMsToUrl(a.href, utm);
+      });
+    });
+  })();
   </script>
 </body>
 </html>
